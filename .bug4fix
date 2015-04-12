@@ -1,0 +1,2 @@
+ulimit -s unlimited
+export OMP_STACKSIZE=20M
