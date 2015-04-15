@@ -62,7 +62,7 @@ int main (int argc, char **argv)
 		
 	double time1 = omp_get_wtime();
 	
-	printf("Time elapsed: %f seconds.\n", time1-time0);
+	printf("Number of Threads: %d.\nTime elapsed: %f seconds.\n", omp_get_num_threads(), time1-time0);
 	
 	free(ur);
 	free(ub);
