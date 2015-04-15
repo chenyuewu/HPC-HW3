@@ -5,14 +5,14 @@
 
 int main (int argc, char **argv)
 {
-	if (argc != 4)
+	if (argc != 3)
 	{
-		fprintf(stderr,"Function needs vector length and number of iterations and number of threads as input arguments!\n");
+		fprintf(stderr,"Function needs vector length and number of iterations as input arguments!\n");
 		abort();
 	}
 	
 	long int n = atoi(argv[1]), k = atoi(argv[2]);
-	int procs = atoi(argv[3]);	
+	
 	if (n <=1)
 	{
 		fprintf(stderr,"Vector length too small!\n");
