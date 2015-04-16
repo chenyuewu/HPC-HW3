@@ -30,7 +30,7 @@ int main (int argc, char **argv)
 	uold = (double *) calloc(n,sizeof(double)); // use uold to store previous result
 	f = (double *) malloc(sizeof(double)*n);
 	
-	int i;
+	int i, num_t;
 	for ( i = 0; i < n; i++)
 		f[i] = 1;
 	
@@ -41,20 +41,23 @@ int main (int argc, char **argv)
 	{
 		// jacobi iteration
 		{
-		if (n == 1)
-		{
-			u[0] = f[0]/(2*(n+1)*(n+1));
-			continue;
-		}
+//		if (n == 1)
+//		{
+//			u[0] = f[0]/(2*(n+1)*(n+1));
+//			continue;
+//		}
 	
 		u[0] = f[0]/(2*(n+1)*(n+1))+0.5*uold[1];
 		
 		long int j;
-	
-		#pragma omp parallel for
+		
+		#pragma omp parallel
+		{
+		num_t = omp_get_num_threads();
+		#pragma omp for
 		for (j = 1; j < n-1; j++)
 			u[j] = f[j]/(2*(n+1)*(n+1))+0.5*uold[j-1]+0.5*uold[j+1];
-	
+		}
 		u[n-1] = f[n-1]/(2*(n+1)*(n+1))+0.5*uold[n-2];
 		}
 		
@@ -68,7 +71,7 @@ int main (int argc, char **argv)
 	
 	double time1 = omp_get_wtime();
 	
-	printf("Time elapsed: %f seconds.\n", time1-time0);
+	printf("Number of threads: %d.\nTime elapsed: %f seconds.\n", num_t, time1-time0);
 	
 	free(u);
 	free(uold);
